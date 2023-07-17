@@ -28,6 +28,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/view.do")
 	public String view() {
+		
 		return "board/view";
 	}
 }
