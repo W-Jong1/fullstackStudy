@@ -9,20 +9,26 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<h2>게시글 목록</h2>
+		<h2>유저 목록</h2>
 		<table border="1">
 			<tr>
-				<th>글번호</th>
-				<th>제목</th>
-				<th>등록일</th>
-				<th>조회수</th>
+				<th>아이디</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+				<th>학점</th>
+				<th>가입일</th>
+				<th>탈퇴여부</th>
 			</tr>
-			<c:forEach items="${list}" var="board">
+			<c:forEach items="${list}" var="user">
 				<tr>
-					<td>${board.bidx}</td>
-					<td>${board.title}</td>
-					<td>${board.wdate}</td>
-					<td>${board.hit}</td>
+					<td>${user.id}</td>
+					<td>${user.name}</td>
+					<td>${user.age}</td>
+					<td>${user.gender}</td>
+					<td>${user.grade}</td>
+					<td>${user.regdate}</td>
+					<td>${user.delyn}</td>
 				</tr>
 			</c:forEach>
 		</table>
