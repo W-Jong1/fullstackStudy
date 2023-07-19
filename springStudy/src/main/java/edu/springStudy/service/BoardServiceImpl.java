@@ -19,4 +19,19 @@ public class BoardServiceImpl implements BoardService {
 		// 게시글 목록 db에서 가져오기
 		return boardDAO.list();
 	}
+
+	@Override
+	public BoardVO selectOneByBidx(int bidx) {
+		return boardDAO.selectOneByBidx(bidx);
+	}
+
+	@Override
+	public int update(BoardVO vo) {
+		return boardDAO.update(vo);
+	}
+
+	@Override
+	public int delete(int bidx) {
+		return boardDAO.delete(bidx);
+	}
 }

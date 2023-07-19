@@ -1,7 +1,10 @@
 package edu.springStudy.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,8 +40,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/view.do")
-	public String view() {
-		
+	public String view(int bidx, Model model) {
+		BoardVO vo = boardService.selectOneByBidx(bidx);
+		model.addAttribute("vo", vo);
 		return "board/view";
 	}
 	
@@ -51,6 +55,38 @@ public class BoardController {
 	@RequestMapping(value="/write.do", method=RequestMethod.POST)
 	public String write1(BoardVO boardVO) {
 		System.out.println(boardVO.toString());
-		return "redirect:/board/list.do";
+		return "redirect:list.do";
+	}
+	
+	@RequestMapping(value="/modify.do", method=RequestMethod.GET)
+	public String modify(int bidx, Model model) {
+		BoardVO vo = boardService.selectOneByBidx(bidx);
+		model.addAttribute("vo", vo);
+		return "board/modify";
+	}
+	
+	@RequestMapping(value="/modify.do", method=RequestMethod.POST)
+	public String modify(BoardVO vo) {
+		int result = boardService.update(vo);
+		if(result>0) {
+			// 수정 성공
+			return "redirect:view.do?bidx="+vo.getBidx();
+		}else {
+			// 수정 실패
+			return "redirect:list.do";
+		}
+	}
+	
+	@RequestMapping(value="/delete.do", method=RequestMethod.POST)
+	public void delete(int bidx, HttpServletResponse res) throws IOException {
+		int result = boardService.delete(bidx);
+		res.setContentType("text/html;chars=UTF-8");
+		PrintWriter pw = res.getWriter();
+		if(result>0) {
+			pw.append("<script>alert('삭제되었습니다');location.href='list.do';</script>");
+		}else {
+			pw.append("<script>alert('삭제되지 않았습니다');location.href='list.do';</script>");
+		}
+		pw.flush();
 	}
 }

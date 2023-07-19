@@ -8,4 +8,23 @@
 		select *
 		  from boardtb
 	</select>
+	
+	<select id="selectOneByBidx" resultType="boardVO" parameterType="int" >
+		select *
+		  from boardtb
+		 where bidx = #{bidx}
+	</select>
+	
+	<update id="update" parameterType="boardVO">
+		update boardtb
+		   set title = #{title}
+		     , body = #{body}
+		 where bidx = #{bidx}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete
+		  from boardtb
+		 where bidx = #{bidx}
+	</delete>
 </mapper>

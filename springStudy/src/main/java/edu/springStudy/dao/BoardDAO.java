@@ -17,4 +17,16 @@ public class BoardDAO {
 	public List<BoardVO> list() {
 		return sqlSession.selectList("edu.springStudy.mapper.boardMapper.selectAll");
 	}
+	
+	public BoardVO selectOneByBidx(int bidx) {
+		return sqlSession.selectOne("edu.springStudy.mapper.boardMapper.selectOneByBidx", bidx);
+	}
+	
+	public int update(BoardVO vo) {
+		return sqlSession.update("edu.springStudy.mapper.boardMapper.update", vo);
+	}
+	
+	public int delete(int bidx) {
+		return sqlSession.delete("edu.springStudy.mapper.boardMapper.delete", bidx);
+	}
 }
