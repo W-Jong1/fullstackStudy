@@ -34,4 +34,9 @@ public class BoardServiceImpl implements BoardService {
 	public int delete(int bidx) {
 		return boardDAO.delete(bidx);
 	}
+
+	@Override
+	public int insert(BoardVO vo) {
+		return boardDAO.insert(vo);
+	}
 }

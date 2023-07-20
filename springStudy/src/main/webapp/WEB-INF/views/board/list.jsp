@@ -26,7 +26,9 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="view.do">게시글 상세 페이지로 이동</a><br>
-		<a href="write.do">게시글 등록 페이지로 이동</a>
+		<!-- <a href="view.do">게시글 상세 페이지로 이동</a><br> -->
+		<c:if test="${not empty login}">
+			<a href="write.do">게시글 등록 페이지로 이동</a>
+		</c:if>
 	</body>
 </html>

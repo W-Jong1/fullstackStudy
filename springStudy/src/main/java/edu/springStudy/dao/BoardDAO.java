@@ -29,4 +29,8 @@ public class BoardDAO {
 	public int delete(int bidx) {
 		return sqlSession.delete("edu.springStudy.mapper.boardMapper.delete", bidx);
 	}
+	
+	public int insert(BoardVO vo) {
+		return sqlSession.insert("edu.springStudy.mapper.boardMapper.insert", vo);
+	}
 }

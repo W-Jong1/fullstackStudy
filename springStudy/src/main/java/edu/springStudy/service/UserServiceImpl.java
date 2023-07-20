@@ -18,4 +18,14 @@ public class UserServiceImpl implements UserService {
 	public List<UserVO> list() {
 		return userDAO.list();
 	}
+
+	@Override
+	public UserVO selectUserByLogin(UserVO vo) {
+		return userDAO.selectUserByLogin(vo);
+	}
+
+	@Override
+	public int join(UserVO vo) {
+		return userDAO.join(vo);
+	}
 }

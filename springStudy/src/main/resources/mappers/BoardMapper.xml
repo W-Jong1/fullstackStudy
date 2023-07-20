@@ -9,6 +9,7 @@
 		  from boardtb
 	</select>
 	
+	<!-- 스트링과 같은 객체를 파라미터로 받을 시 오류 발생 가능성. #{value} 활용 -->
 	<select id="selectOneByBidx" resultType="boardVO" parameterType="int" >
 		select *
 		  from boardtb
@@ -27,4 +28,21 @@
 		  from boardtb
 		 where bidx = #{bidx}
 	</delete>
+	
+	<insert id="insert" parameterType="boardVO">
+		insert into
+		boardtb (
+			 title
+			,body
+			,id
+		) values (
+			 #{title}
+			,#{body}
+			,#{id}
+		)
+		<selectKey order="AFTER" keyProperty="bidx" resultType="int">
+			select max(bidx)
+			  from boardtb
+		</selectKey>
+	</insert>
 </mapper>

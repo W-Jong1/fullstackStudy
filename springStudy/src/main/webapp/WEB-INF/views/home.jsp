@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ page session="true" %>
 <%
 	String serverTime = (String)request.getAttribute("serverTime");
 %>
@@ -12,9 +12,16 @@
 </head>
 <body>
 	<h1>
-		Hello world! Spring <%= serverTime %>
+		Hello world! Spring 반갑습니다!
 	</h1>
-	
+	<c:if test="${empty login}">
+		<a href="<%= request.getContextPath() %>/user/login.do">로그인</a>
+		<a href="<%= request.getContextPath() %>/user/join.do">회원가입</a>
+	</c:if>
+	<c:if test="${not empty login}">
+		${login.name}님 환영합니다!
+		<a href="<%= request.getContextPath() %>/user/logout.do">로그아웃</a>
+	</c:if>
 	<P>  The time on the server is ${serverTime}. </P>
 	<p>
 		<a href="<%= request.getContextPath() %>/sample.do">sample.do로 이동</a>

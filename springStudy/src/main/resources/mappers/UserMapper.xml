@@ -8,4 +8,36 @@
 		select *
 		  from usertb
 	</select>
+	
+	<select id="selectUserByLogin" resultType="userVO" parameterType="userVO">
+		select id
+			 , name
+			 , grade
+		  from usertb
+		 where id = #{id}
+		   and password = #{password}
+	</select>
+	
+	<insert id="join" parameterType="UserVO">
+		insert into
+		usertb (
+			id
+		,	password
+		,	name
+		,	age
+		,	gender
+		,	addr
+		,	phone
+		,	grade
+		)values (
+			#{id}
+		,	#{password}
+		,	#{name}
+		,	#{age}
+		,	#{gender}
+		,	#{addr}
+		,	#{phone}
+		,	'C'
+		)
+	</insert>
 </mapper>

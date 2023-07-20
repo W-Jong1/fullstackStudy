@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.springStudy.service.BoardService;
 import edu.springStudy.vo.BoardVO;
+import edu.springStudy.vo.UserVO;
 
 @Controller
 @RequestMapping(value="/board")
@@ -47,15 +50,34 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/write.do", method=RequestMethod.GET)
-	public String write() {
+	public String write(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		UserVO loginVO = (UserVO)session.getAttribute("login");
+		if(loginVO == null) {
+			return "redirect:list.do";
+		}
 		return "board/write";
 	}
 	
 	/* RequestParam -> 파라미터 이름과 매개변수명이 다를 때 특정짓기 위해 사용 가능 */
 	@RequestMapping(value="/write.do", method=RequestMethod.POST)
-	public String write1(BoardVO boardVO) {
-		System.out.println(boardVO.toString());
-		return "redirect:list.do";
+	public String write(BoardVO vo, HttpServletRequest req) {
+		// 세팅
+		HttpSession session = req.getSession();
+		UserVO loginVO = (UserVO)session.getAttribute("login");
+		if(loginVO == null) {
+			return "redirect:list.do";
+		}
+		vo.setId(loginVO.getId());
+		// 세팅 끝
+		// 등록
+		System.out.println(vo.toString());
+		int result = boardService.insert(vo);
+		if(result>0) {
+			return "redirect:view.do?bidx="+vo.getBidx();
+		}else {
+			return "redirect:list.do";
+		}
 	}
 	
 	@RequestMapping(value="/modify.do", method=RequestMethod.GET)

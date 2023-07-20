@@ -17,4 +17,12 @@ public class UserDAO {
 	public List<UserVO> list() {
 		return sqlSession.selectList("edu.springStudy.mapper.userMapper.selectAll");
 	}
+	
+	public UserVO selectUserByLogin(UserVO vo) {
+		return sqlSession.selectOne("edu.springStudy.mapper.userMapper.selectUserByLogin", vo);
+	}
+	
+	public int join(UserVO vo) {
+		return sqlSession.insert("edu.springStudy.mapper.userMapper.join", vo);
+	}
 }
