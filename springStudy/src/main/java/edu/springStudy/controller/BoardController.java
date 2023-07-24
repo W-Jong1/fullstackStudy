@@ -1,5 +1,6 @@
 package edu.springStudy.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.springStudy.service.BoardService;
 import edu.springStudy.vo.BoardVO;
+import edu.springStudy.vo.SearchVO;
 import edu.springStudy.vo.UserVO;
 
 @Controller
@@ -26,7 +29,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping(value="/list.do")
-	public String list(Model model) {
+	public String list(Model model, SearchVO searchVO) {
 		
 		/*
 		 * List<String> list = new ArrayList<String>();
@@ -35,7 +38,7 @@ public class BoardController {
 		 * list.add("네번째 게시물입니다.");
 		 */
 		
-		List<BoardVO> list = boardService.list();
+		List<BoardVO> list = boardService.list(searchVO);
 		
 		model.addAttribute("list", list);
 		
@@ -61,7 +64,9 @@ public class BoardController {
 	
 	/* RequestParam -> 파라미터 이름과 매개변수명이 다를 때 특정짓기 위해 사용 가능 */
 	@RequestMapping(value="/write.do", method=RequestMethod.POST)
-	public String write(BoardVO vo, HttpServletRequest req) {
+	public String write(BoardVO vo
+			, HttpServletRequest req
+			, MultipartFile uploadFile) throws Exception {
 		// 세팅
 		HttpSession session = req.getSession();
 		UserVO loginVO = (UserVO)session.getAttribute("login");
@@ -70,6 +75,24 @@ public class BoardController {
 		}
 		vo.setId(loginVO.getId());
 		// 세팅 끝
+		
+		// 첨부파일 세팅
+		String realPath = req.getSession().getServletContext().getRealPath("/resources/upload");
+		if(!uploadFile.getOriginalFilename().isEmpty()) {
+			String fileNM = uploadFile.getOriginalFilename();
+			String fileNMArray[] = fileNM.split("\\.");
+			String etc = fileNMArray[fileNMArray.length-1];
+			long timeMilis = System.currentTimeMillis();
+			
+			String newFileNM = fileNM.substring(0,fileNM.length()-etc.length()-1)+timeMilis+"."+etc;
+			uploadFile.transferTo(new File(realPath,newFileNM));
+			
+			System.out.println("realPath::"+realPath);
+			vo.setFilename(newFileNM);
+			vo.setOrifilename(fileNM);
+		}
+		// 첨부파일 세팅 끝
+		
 		// 등록
 		System.out.println(vo.toString());
 		int result = boardService.insert(vo);

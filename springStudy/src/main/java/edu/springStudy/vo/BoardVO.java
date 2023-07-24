@@ -7,13 +7,14 @@ public class BoardVO {
 	private String body;
 	private int hit;
 	private String id;
+	private String filename;
+	private String orifilename;
 	
 	@Override
 	public String toString() {
 		return "BoardVO [title=" + title + ", bidx=" + bidx + ", wdate=" + wdate + ", body=" + body + ", hit=" + hit
-				+ ", id=" + id + "]";
+				+ ", id=" + id + ", filename=" + filename + ", orifilename=" + orifilename + "]";
 	}
-	
 	public String getTitle() {
 		return title;
 	}
@@ -49,5 +50,17 @@ public class BoardVO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getOrifilename() {
+		return orifilename;
+	}
+	public void setOrifilename(String orifilename) {
+		this.orifilename = orifilename;
 	}
 }

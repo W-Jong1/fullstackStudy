@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.springStudy.service.UserService;
 import edu.springStudy.vo.UserVO;
@@ -66,6 +67,7 @@ public class UserController {
 		try {
 			HttpSession session = req.getSession();
 			session.invalidate();
+			/* session.setAttribute("key", null); 특정 키만 초기화 */
 			pw.append("<script>alert('로그아웃 되었습니다.');location.href='"+req.getContextPath()+"/'</script>");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -80,24 +82,25 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/join.do", method=RequestMethod.POST)
-	public String join(UserVO vo, HttpServletRequest req) {
-		HttpSession session = req.getSession();
-		UserVO loginVO = (UserVO)session.getAttribute("login");
-		if(loginVO != null) {
-			return "redirect:/";
+	public String join(UserVO vo, String ageStr) {
+		// age는 필수값이 아니지만, VO에서 age는 int형으로 null로 insert 불가.
+		if(ageStr != null && !ageStr.equals("")) {
+			vo.setAge(Integer.parseInt(ageStr));
 		}
-		System.out.println(vo.toString());
-		int result = userService.join(vo);
-		if(result>0) {
-			UserVO joinLoginVO = userService.selectUserByLogin(vo);
-			if(joinLoginVO != null) {
-				session.setAttribute("login", joinLoginVO);
-				return "redirect:/";
-			}else {
-				return "redirect:join.do";
-			}
+		
+		int result = userService.insert(vo);
+		if(result > 0) {
+			System.out.println("회원가입 성공");
 		}else {
-			return "redirect:join.do";
+			System.out.println("회원가입 실패");
 		}
+		return "redirect:login.do";
+	}
+	
+	@RequestMapping(value="/checkId.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String checkId(String id) {
+		int result = userService.selectCntById(id);
+		return result+"";
 	}
 }

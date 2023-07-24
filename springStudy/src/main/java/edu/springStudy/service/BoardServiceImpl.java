@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import edu.springStudy.dao.BoardDAO;
 import edu.springStudy.vo.BoardVO;
+import edu.springStudy.vo.SearchVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -15,9 +16,9 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO boardDAO;
 	
 	@Override
-	public List<BoardVO> list() {
+	public List<BoardVO> list(SearchVO searchVO) {
 		// 게시글 목록 db에서 가져오기
-		return boardDAO.list();
+		return boardDAO.list(searchVO);
 	}
 
 	@Override

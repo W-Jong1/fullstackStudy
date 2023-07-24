@@ -31,6 +31,9 @@
 				<td>${vo.body}</td>
 			</tr>
 		</table>
+		<c:if test="${not empty vo.filename}">
+			<img src="<%= request.getContextPath() %>/resources/upload/${vo.filename}"><br>
+		</c:if>
 		<c:if test="${not empty login and login.id eq vo.id}">
 			<button onclick="location.href='modify.do?bidx=${vo.bidx}'">수정하기</button>
 			<button onclick="delFn();">삭제하기</button>

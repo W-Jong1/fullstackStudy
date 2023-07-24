@@ -4,9 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="edu.springStudy.mapper.boardMapper">
-	<select id="selectAll" resultType="boardVO">
+	<select id="selectAll" resultType="boardVO" parameterType="searchVO">
 		select *
 		  from boardtb
+		 where 1=1
+		<if test='searchType != null and searchType.equals("title")'>
+		   and title like concat('%', #{searchValue}, '%')
+		</if>
+		<if test='searchType != null and searchType.equals("id")'>
+		   and id like concat('%', #{searchValue}, '%')
+		</if>
 	</select>
 	
 	<!-- 스트링과 같은 객체를 파라미터로 받을 시 오류 발생 가능성. #{value} 활용 -->
@@ -35,10 +42,14 @@
 			 title
 			,body
 			,id
+			,filename
+			,orifilename
 		) values (
 			 #{title}
 			,#{body}
 			,#{id}
+			,#{filename}
+			,#{orifilename}
 		)
 		<selectKey order="AFTER" keyProperty="bidx" resultType="int">
 			select max(bidx)

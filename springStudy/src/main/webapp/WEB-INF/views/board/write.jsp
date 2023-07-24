@@ -8,10 +8,11 @@
 	</head>
 	<body>
 		<h2>게시글 등록</h2>
-		<form action="write.do" method="post">
+		<form action="write.do" method="post" enctype="multipart/form-data">
 			제목 : <input type="text" name="title"><br>
 			작성자 : <input type="text" name="writer"><br>
 			내용 : <textarea name="body"></textarea><br>
+			첨부파일 : <input type="file" name="uploadFile"><br>
 			<button>등록</button>
 		</form>
 	</body>

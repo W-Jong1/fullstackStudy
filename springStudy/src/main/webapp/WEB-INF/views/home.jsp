@@ -32,5 +32,11 @@
 	<p>
 		<a href="<%= request.getContextPath() %>/user/list.do">회원 목록으로 이동</a>
 	</p>
+	<p>
+		<a href="<%= request.getContextPath() %>/ajax/sample.do">AJAX 테스트 페이지로 이동</a>
+	</p>
+	<p>
+		<a href="<%= request.getContextPath() %>/fileupload.do">파일 업로드하러 가기</a>
+	</p>
 </body>
 </html>

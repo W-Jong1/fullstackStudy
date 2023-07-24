@@ -18,26 +18,32 @@
 		   and password = #{password}
 	</select>
 	
-	<insert id="join" parameterType="UserVO">
+	<insert id="insert" parameterType="UserVO">
 		insert into
 		usertb (
-			id
-		,	password
-		,	name
-		,	age
-		,	gender
-		,	addr
-		,	phone
-		,	grade
+			 id
+			,password
+			,name
+			,age
+			,gender
+			,addr
+			,phone
+			,grade
 		)values (
-			#{id}
-		,	#{password}
-		,	#{name}
-		,	#{age}
-		,	#{gender}
-		,	#{addr}
-		,	#{phone}
-		,	'C'
+			 #{id}
+			,#{password}
+			,#{name}
+			,#{age}
+			,#{gender}
+			,#{addr}
+			,#{phone}
+			,'C'
 		)
 	</insert>
+	
+	<select id="selectCntById" resultType="int" parameterType="String">
+		select count(id)
+		  from usertb
+		 where id = #{id}
+	</select>
 </mapper>

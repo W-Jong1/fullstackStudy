@@ -10,6 +10,14 @@
 	</head>
 	<body>
 		<h2>게시글 목록</h2>
+		<form action="list.do" method="get">
+			<select name="searchType">
+				<option value="title" <c:if test="${param.searchType eq 'title'}">selected</c:if>>제목</option>
+				<option value="id" <c:if test="${param.searchType eq 'id'}">selected</c:if>>id</option>
+			</select>
+			<input type="text" name="searchValue" size="30" value="${param.searchValue}">
+			<button>검색</button>
+		</form>
 		<table border="1">
 			<tr>
 				<th>글번호</th>

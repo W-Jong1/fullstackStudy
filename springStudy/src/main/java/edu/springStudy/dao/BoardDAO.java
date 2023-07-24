@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.springStudy.vo.BoardVO;
+import edu.springStudy.vo.SearchVO;
 
 @Repository
 public class BoardDAO {
@@ -14,8 +15,8 @@ public class BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<BoardVO> list() {
-		return sqlSession.selectList("edu.springStudy.mapper.boardMapper.selectAll");
+	public List<BoardVO> list(SearchVO searchVO) {
+		return sqlSession.selectList("edu.springStudy.mapper.boardMapper.selectAll", searchVO);
 	}
 	
 	public BoardVO selectOneByBidx(int bidx) {
